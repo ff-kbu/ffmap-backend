@@ -84,4 +84,4 @@ os.rename(options['destination_directory'] + '/nodes.json.new',options['destinat
 
 rrd = rrd(scriptdir +  "/nodedb/", options['destination_directory'] + "/nodes")
 rrd.update_database(db)
-rrd.update_images()
+#rrd.update_images()

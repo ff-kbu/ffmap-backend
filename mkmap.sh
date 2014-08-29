@@ -1,4 +1,5 @@
 #!/bin/bash
+PATH=${PATH}:/usr/local/sbin
 
 set -e
 
@@ -9,7 +10,6 @@ DEST=$1
 
 cd "$(dirname "$0")"/
 
-./ffhlwiki.py http://freifunk.metameute.de/wiki/Knoten > aliases_hl.json
-./ffhlwiki.py http://freifunk.metameute.de/wiki/Moelln:Knoten > aliases_moelln.json
+./kbu.py registerNodes.json > aliases_kbu.json
 
-./bat2nodes.py -A -a aliases.json -a aliases_hl.json -a aliases_moelln.json -d $DEST
+./bat2nodes.py -a aliases.json -a aliases_kbu.json -d $DEST

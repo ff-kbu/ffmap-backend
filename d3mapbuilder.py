@@ -13,7 +13,7 @@ class D3MapBuilder:
     nodes = self._db.get_nodes()
 
     output['nodes'] = [{'name': x.name, 'id': x.id,
-                        'geo': [float(x) for x in x.gps.split(" ")] if x.gps else None,
+                        'geo': [float(x) for x in x.gps.split(" ")] if x.gps and x.gps != "None None" else None,
                         'firmware': x.firmware,
                         'flags': x.flags,
                         'clientcount': x.clientcount
