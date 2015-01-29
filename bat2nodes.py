@@ -51,7 +51,7 @@ if options['mesh']:
       db.mark_gateways(gw['mac'])
 else:
   bm = batman()
-  db.parse_vis_data(bm.vis_data(options['alfred']))
+  db.parse_vis_data(bm.vis_data(batadv_vis=True))
   for gw in bm.gateway_list():
     db.mark_gateways([gw['mac']])
 
@@ -65,8 +65,9 @@ if options['alfred']:
 
 db.load_state("state.json")
 
-# remove nodes that have been offline for more than 30 days
-db.prune_offline(time.time() - 30*86400)
+# remove nodes that have been offline for more than 10 days
+db.prune_offline(time.time() - 10*86400)
+db.add_alfred_versions()
 
 db.dump_state("state.json")
 

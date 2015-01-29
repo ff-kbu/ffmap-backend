@@ -27,11 +27,12 @@ class rrd:
       os.mkdir(self.imagePath)
 
   def update_database(self,db):
-    nodes = db.get_nodes()
-    clientCount = sum(map(lambda d: d.clientcount, nodes))
+    #nodes = db.get_nodes()
+    onlinenodes = [x for x in db.get_nodes() if x.flags['online']]
+    clientCount = sum(map(lambda d: d.clientcount, onlinenodes))
 
-    self.globalDb.update(len(nodes), clientCount)
-    for node in nodes:
+    self.globalDb.update(len(onlinenodes), clientCount)
+    for node in onlinenodes:
       rrd = NodeRRD(
         os.path.join(self.dbPath, str(node.id).replace(':', '') + '.rrd'),
         node

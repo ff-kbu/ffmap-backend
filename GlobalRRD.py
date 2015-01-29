@@ -25,11 +25,24 @@ class GlobalRRD(RRD):
     def graph(self, filename, timeframe):
         args = ["rrdtool", 'graph', filename,
                 '-s', '-' + timeframe,
-                '-w', '800',
+                '-w', '1200',
                 '-h' '400',
+                '--right-axis', '1:0',
                 'DEF:nodes=' + self.filename + ':nodes:AVERAGE',
                 'LINE1:nodes#F00:nodes\\l',
                 'DEF:clients=' + self.filename + ':clients:AVERAGE',
                 'LINE2:clients#00F:clients',
         ]
         subprocess.check_output(args)
+
+    def nodesGraph(self, filename, timeframe):
+        args = ["rrdtool", 'graph', filename,
+                '-s', '-' + timeframe,
+                '-w', '1200',
+                '-h', '400',
+                '--right-axis', '1:0',
+                'DEF:nodes=' + self.filename + ':nodes:AVERAGE',
+                'LINE1:nodes#dc0067:nodes\\l'
+        ]
+        subprocess.check_output(args)
+

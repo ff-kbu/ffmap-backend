@@ -1,4 +1,5 @@
 import json
+import alfred
 from functools import reduce
 from collections import defaultdict
 from node import Node, Interface
@@ -6,6 +7,7 @@ from link import Link, LinkConnector
 
 class NodeDB:
   def __init__(self, time=0):
+    self.al = alfred.alfred()
     self.time = time
     self._nodes = []
     self._links = []
@@ -70,6 +72,13 @@ class NodeDB:
         return node
 
     raise KeyError
+
+  def add_alfred_versions(self):
+    alfreds = self.al.fw_version()
+    for mac,version in alfreds.items():
+      for node in self._nodes:
+        if is_similar(mac, node.id):
+          node.firmware = version        
 
   def parse_vis_data(self,vis_data):
     for x in vis_data:
@@ -203,6 +212,7 @@ class NodeDB:
         self._nodes.append(node)
 
       if 'name' in alias:
+        #node.name = 'fiXXXen123'		
         node.name = alias['name']
 
       if 'vpn' in alias and alias['vpn'] and mac and node.interfaces and mac in node.interfaces:

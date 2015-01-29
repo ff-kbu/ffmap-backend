@@ -35,8 +35,26 @@ class alfred:
       if len(node_alias):
         alias[mac] = node_alias
     return alias
+  
+  def fw_version(self):
+    version_alfred = 94
+    output = subprocess.check_output(["alfred","-r",str(version_alfred)])
+    output = output.decode('utf-8')
+    output = output[:-2].replace(' },', ',')
+    output = output.replace('", "', '": "')
+    output = output.replace('\x0a{', '')
+    output = output.replace('\\x0a', '')
+    if len(output) == 0:
+      output = "{}"
+    alfred_data = json.loads(output)
+    alias = {}
+    for mac,fw_version in alfred_data.items():
+      alias[mac] = fw_version 
+    return alias
 
 if __name__ == "__main__":
   ad = alfred()
-  al = ad.aliases()
-  print(al)
+  #al = ad.aliases()
+  a1 = ad.fw_version()
+  for mac in a1:
+    print(mac)

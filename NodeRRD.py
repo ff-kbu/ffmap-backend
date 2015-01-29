@@ -1,5 +1,6 @@
 import os
 import subprocess
+import datetime
 from node import Node
 from RRD import RRD, DS, RRA
 
@@ -39,14 +40,14 @@ class NodeRRD(RRD):
         """
         args = ['rrdtool','graph', os.path.join(directory, self.imagename),
                 '-s', '-' + timeframe ,
-                '--title', 'Clients 7d',
-                '--watermark', '"`date`"',
+                '--title', 'Clients last week',
+                '--watermark', datetime.datetime.utcnow().isoformat(),
                 '-w', '800',
                 '-h', '400',
                 '-l', '0',
                 '-Y',
 #                '-y', '1:1',
-                '-z',  # only generate the graph if the current graph is out of date
+#                '-z',  # only generate the graph if the current graph is out of date
                 'DEF:clients=' + self.filename + ':clients:AVERAGE',
                 'VDEF:maxc=clients,MAXIMUM',
                 'CDEF:c=0,clients,ADDNAN',
